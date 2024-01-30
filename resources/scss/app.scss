@@ -1,0 +1,25 @@
+@import "variables";
+
+@import "theme";
+
+.page_main_wrap {
+    .welcome_wrap {
+        @include flexContainer(row, 20px, flex-start);
+        margin-bottom: 50px;
+
+        .big_post_wrap {
+
+        }
+
+        .news_list_wrap {
+            @include flexContainer(column, 10px, flex-start);
+            background: white;
+            padding: 10px;
+            min-width: 30%;
+            border-radius: 10px;
+        }
+    }
+}
+
+
+
