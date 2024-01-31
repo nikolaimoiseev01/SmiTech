@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('body');
             $table->boolean('flg_big_banner');
-            $table->boolean('tagline');
+            $table->string('tagline');
             $table->foreignId('topic_id');
             $table->timestamps();
         });
