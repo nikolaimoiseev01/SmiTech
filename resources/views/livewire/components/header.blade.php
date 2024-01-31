@@ -34,13 +34,15 @@ new class extends Component {
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    @foreach($topics as $topic)
+                        <x-nav-link :href="route('portal.topic_page', $topic['id'])" :active="request()->routeIs('account.index')"
+                                    wire:navigate>
+                            {{$topic['title']}}
+                        </x-nav-link>
+                    @endforeach
                     <x-nav-link :href="route('account.index')" :active="request()->routeIs('account.index')"
                                 wire:navigate>
-                        {{ __('Электроника') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('account.index')" :active="request()->routeIs('account.index')"
-                                wire:navigate>
-                        {{ __('Спорт') }}
+                        Dashboard
                     </x-nav-link>
                 </div>
             </div>

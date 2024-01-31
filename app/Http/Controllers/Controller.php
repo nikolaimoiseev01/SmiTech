@@ -16,6 +16,7 @@ class Controller extends BaseController
         $posts_list = Post::all();
         $post_big = Post::orderBy('created_at', 'desc')->first();
         return view('pages.portal.index', [
+            'posts' => $posts_list,
             'posts_list' => $posts_list,
             'post_big' => $post_big
         ]);
@@ -25,6 +26,13 @@ class Controller extends BaseController
         $post = Post::where('id', $post_id)->first();
         return view('pages.portal.post-page', [
             'post' => $post
+        ]);
+    }
+
+    public function topic_page($topic_id) {
+        $posts = Post::where('topic_id', $topic_id)->get();
+        return view('pages.portal.topic-page', [
+            'posts' => $posts
         ]);
     }
 }

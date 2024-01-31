@@ -14,7 +14,4 @@ class PostFeed extends Component
         return view('livewire.components.post-feed');
     }
 
-    public function mount() {
-        $this->posts = Post::all();
-    }
 }

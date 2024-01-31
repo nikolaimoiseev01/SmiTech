@@ -16,7 +16,7 @@
             </div>
         </div>
 
-        <livewire:components.post-feed></livewire:components.post-feed>
+        <livewire:components.post-feed :posts="$posts"></livewire:components.post-feed>
 
     </div>
 </x-portal-layout>
