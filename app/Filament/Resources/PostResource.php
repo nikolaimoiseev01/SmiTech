@@ -14,6 +14,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -30,12 +31,11 @@ class PostResource extends Resource
         return $form
             ->schema([
                 Card::make()->schema([
-                    Grid::make(4)->schema([
+                    Grid::make(3)->schema([
                         Forms\Components\TextInput::make('title')->required(),
                         Forms\Components\Select::make('topic_id')
                             ->required()
                             ->relationship(name: 'topic', titleAttribute: 'title'),
-                        Toggle::make('flg_big_banner')->label('Большой банер'),
                         Forms\Components\TextInput::make('tagline')->label('Короткая фраза')
                     ]),
                     Forms\Components\SpatieMediaLibraryFileUpload::make('post_cover')
@@ -52,9 +52,11 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title'),
-                Tables\Columns\TextColumn::make('topic.title'),
-                Tables\Columns\TextColumn::make('tagline')
+                        SpatieMediaLibraryImageColumn::make('post_cover')
+                            ->collection('cover'),
+                        Tables\Columns\TextColumn::make('title'),
+                        Tables\Columns\TextColumn::make('topic.title'),
+                        Tables\Columns\TextColumn::make('tagline')
             ])
             ->filters([
                 //
@@ -80,7 +82,15 @@ class PostResource extends Resource
         return [
             'index' => Pages\ListPosts::route('/'),
             'create' => Pages\CreatePost::route('/create'),
-            'edit' => Pages\EditPost::route('/{record}/edit'),
+            'edit' => Pages\EditPost::route('/{record}/edit')
         ];
     }
+
+    public static function getWidgets(): array
+    {
+        return [
+            PostResource\Widgets\MainPostWidget::class,
+        ];
+    }
+
 }

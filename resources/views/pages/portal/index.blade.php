@@ -7,7 +7,7 @@
 
                 @foreach($posts_list as $post)
                     <div class="new_wrap">
-                        <span>{{$post['created_at']}}</span>
+                        <span>{{date_ru_format($post['created_at'])}}</span>
                         <p><b>{{$post['tagline']}}</b></p>
                     </div>
                 @endforeach

@@ -16,12 +16,12 @@ class Post extends Model implements HasMedia
         'title',
         'body',
         'topic_id',
-        'flg_big_banner',
+        'flg_main_banner',
         'tagline'
     ];
 
     protected $casts = [
-        'flg_big_banner' => 'boolean',
+        'flg_main_banner' => 'boolean',
     ];
 
 

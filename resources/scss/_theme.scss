@@ -34,8 +34,9 @@ a {
     &.big {
         display: flex;
         flex-direction: column;
-        width: 100%;
+        flex: 1;
         max-width: 1300px;
+        min-width: 400px;
         border-radius: 10px;
         overflow: auto;
 

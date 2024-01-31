@@ -1,5 +1,6 @@
 @mixin flexContainer($direction: row, $gap: 20px, $justify: center) {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: $direction;
     gap: $gap;
     justify-content: $justify;

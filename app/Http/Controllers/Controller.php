@@ -13,8 +13,8 @@ class Controller extends BaseController
     use AuthorizesRequests, ValidatesRequests;
 
     public function main_page() {
-        $posts_list = Post::all();
-        $post_big = Post::orderBy('created_at', 'desc')->first();
+        $posts_list = Post::where('flg_main_banner', False)->orderBy('created_at', 'desc')->get();
+        $post_big = Post::where('flg_main_banner', True)->first();
         return view('pages.portal.index', [
             'posts' => $posts_list,
             'posts_list' => $posts_list,
