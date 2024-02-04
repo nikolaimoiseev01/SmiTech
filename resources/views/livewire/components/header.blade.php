@@ -34,68 +34,74 @@ new class extends Component {
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    @foreach($topics as $topic)
-                        <x-nav-link :href="route('portal.topic_page', $topic['id'])" :active="request()->routeIs('account.index')"
-                                    wire:navigate>
-                            {{$topic['title']}}
+                    @foreach($post_types as $post_type)
+                        <x-nav-link
+                            :href="route('portal.post_type_page', $post_type['id'])"
+                            :active="url()->current() == route('portal.post_type_page', $post_type['id'])"
+                            wire:navigate
+                        >
+                            {{$post_type['title']}}
                         </x-nav-link>
                     @endforeach
-                    <x-nav-link :href="route('account.index')" :active="request()->routeIs('account.index')"
-                                wire:navigate>
-                        Dashboard
-                    </x-nav-link>
+
+
                 </div>
             </div>
 
-            @if(auth()->user())
-                <!-- Settings Dropdown -->
-                <div class="hidden sm:flex sm:items-center sm:ms-6">
-                    <x-dropdown align="right" width="48">
-                        <x-slot name="trigger">
-                            <button
-                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                                <div x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name"
-                                     x-on:profile-updated.window="name = $event.detail.name"></div>
+            <button x-cloak x-on:click="darkMode = !darkMode;">
+                <x-heroicon-s-moon x-show="!darkMode" class="p-2 ml-3 w-8 h-8 text-gray-700 bg-gray-100 rounded-md transition cursor-pointer hover:bg-gray-200" />
+                <x-heroicon-s-sun x-show="darkMode" class="p-2 ml-3 w-8 h-8 text-gray-100 bg-gray-700 rounded-md transition cursor-pointer dark:hover:bg-gray-600" />
+            </button>
 
-                                <div class="ms-1">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                         viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                              clip-rule="evenodd"/>
-                                    </svg>
-                                </div>
-                            </button>
-                        </x-slot>
+{{--            @if(auth()->user())--}}
+{{--                <!-- Settings Dropdown -->--}}
+{{--                <div class="hidden sm:flex sm:items-center sm:ms-6">--}}
+{{--                    <x-dropdown align="right" width="48">--}}
+{{--                        <x-slot name="trigger">--}}
+{{--                            <button--}}
+{{--                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">--}}
+{{--                                <div x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name"--}}
+{{--                                     x-on:profile-updated.window="name = $event.detail.name"></div>--}}
 
-                        <x-slot name="content">
-                            <x-dropdown-link :href="route('profile')" wire:navigate>
-                                {{ __('Profile') }}
-                            </x-dropdown-link>
+{{--                                <div class="ms-1">--}}
+{{--                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"--}}
+{{--                                         viewBox="0 0 20 20">--}}
+{{--                                        <path fill-rule="evenodd"--}}
+{{--                                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"--}}
+{{--                                              clip-rule="evenodd"/>--}}
+{{--                                    </svg>--}}
+{{--                                </div>--}}
+{{--                            </button>--}}
+{{--                        </x-slot>--}}
 
-                            <!-- Authentication -->
-                            <button wire:click="logout" class="w-full text-start">
-                                <x-dropdown-link>
-                                    {{ __('Log Out') }}
-                                </x-dropdown-link>
-                            </button>
-                        </x-slot>
-                    </x-dropdown>
-                </div>
-            @else
-                <div class="flex items-center">
+{{--                        <x-slot name="content">--}}
+{{--                            <x-dropdown-link :href="route('profile')" wire:navigate>--}}
+{{--                                {{ __('Profile') }}--}}
+{{--                            </x-dropdown-link>--}}
 
-                    <a href="{{ route('login') }}"
-                       class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                       wire:navigate>Log in</a>
+{{--                            <!-- Authentication -->--}}
+{{--                            <button wire:click="logout" class="w-full text-start">--}}
+{{--                                <x-dropdown-link>--}}
+{{--                                    {{ __('Log Out') }}--}}
+{{--                                </x-dropdown-link>--}}
+{{--                            </button>--}}
+{{--                        </x-slot>--}}
+{{--                    </x-dropdown>--}}
+{{--                </div>--}}
+{{--            @else--}}
+{{--                <div class="flex items-center">--}}
 
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}"
-                           class="ms-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                           wire:navigate>Register</a>
-                    @endif
-                </div>
-            @endif
+{{--                    <a href="{{ route('login') }}"--}}
+{{--                       class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"--}}
+{{--                       wire:navigate>Log in</a>--}}
+
+{{--                    @if (Route::has('register'))--}}
+{{--                        <a href="{{ route('register') }}"--}}
+{{--                           class="ms-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"--}}
+{{--                           wire:navigate>Register</a>--}}
+{{--                    @endif--}}
+{{--                </div>--}}
+{{--            @endif--}}
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
                 <button @click="open = ! open"

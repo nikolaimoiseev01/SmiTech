@@ -1,10 +1,7 @@
-<a href="{{route('portal.post_page', $post['id'])}}" class="post_card small" wire:navigate>
-    <div class="img_wrap">
-        <img src="{{$post->getFirstMediaUrl('cover')}}" alt=""/>
-        <span>{{$post->topic['title']}}</span>
-    </div>
-
-    <div class="text_wrap">
-        <h3 class="title">{{$post['title']}}</h3>
+<a wire:navigate href="{{route('portal.post_page', $post['id'])}}"
+   class="bg-white rounded-md overflow-hidden shadow-md dark:bg-gray-800">
+    <img class="h-40 object-cover w-full" src="{{$post->getFirstMediaUrl('cover')}}" alt="Sunset in the mountains">
+    <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">{{$post['title']}}</div>
     </div>
 </a>

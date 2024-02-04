@@ -19,8 +19,8 @@ Route::get('/', [\App\Http\Controllers\Controller::class, 'main_page'])
 Route::get('post/{post_id}', [\App\Http\Controllers\Controller::class, 'post_page'])
     ->name('portal.post_page');
 
-Route::get('topic/{topic_id}', [\App\Http\Controllers\Controller::class, 'topic_page'])
-    ->name('portal.topic_page');
+Route::get('post_type/{topic_id}', [\App\Http\Controllers\Controller::class, 'post_type_page'])
+    ->name('portal.post_type_page');
 
 
 Route::view('dashboard', 'pages.account.index')

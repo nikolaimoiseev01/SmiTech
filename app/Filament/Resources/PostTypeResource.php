@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\TopicResource\Pages;
-use App\Filament\Resources\TopicResource\RelationManagers;
-use App\Models\Topic;
+use App\Filament\Resources\PostTypeResource\Pages;
+use App\Filament\Resources\PostTypeResource\RelationManagers;
+use App\Models\PostType;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,13 +13,13 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class TopicResource extends Resource
+class PostTypeResource extends Resource
 {
-    protected static ?string $model = Topic::class;
+    protected static ?string $model = PostType::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationLabel = 'Темы новостей';
+    protected static ?string $navigationLabel = 'Типы новостей';
 
     protected static ?string $navigationGroup = 'Новости';
 
@@ -54,7 +54,7 @@ class TopicResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageTopics::route('/'),
+            'index' => Pages\ManagePostTypes::route('/'),
         ];
     }
 }

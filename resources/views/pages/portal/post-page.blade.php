@@ -1,10 +1,7 @@
 <x-portal-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{$post['title']}}
-            <img style="width: 600px; object-fit: cover;" src="{{$post->getFirstMediaUrl('cover')}}" alt="">
-        </h2>
-    </x-slot>
-{{--    <img class="h-16" src="{{$post->getFirstMediaUrl('cover')}}" alt="">--}}
-    {!! $post['body'] !!}
+    <div class="flex gap-8 justify-between">
+        <livewire:components.article :post="$post"></livewire:components.article>
+        <livewire:components.posts-list :posts="$posts_list"></livewire:components.posts-list>
+    </div>
+
 </x-portal-layout>

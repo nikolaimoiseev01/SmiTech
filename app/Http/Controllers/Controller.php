@@ -23,15 +23,17 @@ class Controller extends BaseController
     }
 
     public function post_page($post_id) {
+        $posts_list = Post::where('flg_main_banner', False)->orderBy('created_at', 'desc')->get();
         $post = Post::where('id', $post_id)->first();
         return view('pages.portal.post-page', [
-            'post' => $post
+            'post' => $post,
+            'posts_list' => $posts_list
         ]);
     }
 
-    public function topic_page($topic_id) {
-        $posts = Post::where('topic_id', $topic_id)->get();
-        return view('pages.portal.topic-page', [
+    public function post_type_page($post_type_id) {
+        $posts = Post::where('post_type_id', $post_type_id)->get();
+        return view('pages.portal.post-type-page', [
             'posts' => $posts
         ]);
     }

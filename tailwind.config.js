@@ -12,10 +12,14 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['ui-sans-serif', ...defaultTheme.fontFamily.sans],
             },
+            boxShadow: {
+                'md': '0px 0px 8px 0px rgba(34, 60, 80, 0.2)',
+            }
         },
     },
+    darkMode: 'class',
 
     plugins: [forms],
 };

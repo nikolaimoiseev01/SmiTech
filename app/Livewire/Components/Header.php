@@ -2,12 +2,13 @@
 
 namespace App\Livewire\Components;
 
+use App\Models\PostType;
 use App\Models\Topic;
 use Livewire\Component;
 
 class Header extends Component
 {
-    public $topics;
+    public $post_types;
 
     public function render()
     {
@@ -15,6 +16,6 @@ class Header extends Component
     }
 
     public function mount() {
-        $this->topics = Topic::all();
+        $this->post_types = PostType::all();
     }
 }

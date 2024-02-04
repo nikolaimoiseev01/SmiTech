@@ -10,11 +10,17 @@ use Filament\Forms;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Split;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
+use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -24,52 +30,91 @@ class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
 
+    protected static ?string $navigationLabel = 'Новости';
+
+    protected static ?string $pluralModelLabel = 'Новости';
+
+    protected static ?string $navigationGroup = 'Новости';
+
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Card::make()->schema([
-                    Grid::make(3)->schema([
-                        Forms\Components\TextInput::make('title')->required(),
-                        Forms\Components\Select::make('topic_id')
+                Forms\Components\Section::make()->schema([
+                    Grid::make(2)->schema([
+                        Forms\Components\Textarea::make('title')
+                            ->label('Название')
+                            ->required(),
+                        Forms\Components\Textarea::make('tagline')
                             ->required()
-                            ->relationship(name: 'topic', titleAttribute: 'title'),
-                        Forms\Components\TextInput::make('tagline')->label('Короткая фраза')
+                            ->label('Короткая фраза'),
                     ]),
-                    Forms\Components\SpatieMediaLibraryFileUpload::make('post_cover')
-                        ->collection('cover')
-                        ->disk('media'),
                     Forms\Components\RichEditor::make('body')
+                        ->label('Текст статьи')
                         ->fileAttachmentsDirectory('post_pics')
 
                 ])
-            ]);
+                    ->columnSpan(['lg' => fn() => 2]),
+
+                Forms\Components\Section::make()->schema([
+                    Forms\Components\Select::make('post_type_id')
+                        ->required()
+                        ->label('Тип')
+                        ->native(False)
+                        ->relationship(name: 'PostType', titleAttribute: 'title'),
+                    Forms\Components\Select::make('topic_id')
+                        ->required()
+                        ->native(False)
+                        ->label('Тема')
+                        ->relationship(name: 'topic', titleAttribute: 'title'),
+                    Forms\Components\SpatieMediaLibraryFileUpload::make('post_cover')
+                        ->collection('cover')
+                        ->image()
+                        ->imageEditor()
+                        ->imageEditorAspectRatios([
+                            '16:9',
+                            '4:3'
+                        ])
+                        ->label('Обложка')
+                        ->disk('media'),
+                ])->columnSpan(['lg' => 1])
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                        SpatieMediaLibraryImageColumn::make('post_cover')
-                            ->collection('cover'),
-                        Tables\Columns\TextColumn::make('title'),
-                        Tables\Columns\TextColumn::make('topic.title'),
-                        Tables\Columns\TextColumn::make('tagline')
+                Stack::make([
+                    SpatieMediaLibraryImageColumn::make('post_cover')
+                        ->collection('cover')
+                        ->extraImgAttributes(['class' => 'w-full rounded'])
+                        ->height('auto')
+                        ->width('100%'),
+                    Tables\Columns\TextColumn::make('title')
+                        ->weight(FontWeight::SemiBold)
+                        ->limit(50)
+                        ->searchable()
+                        ->size(Tables\Columns\TextColumn\TextColumnSize::Large),
+                    Tables\Columns\TextColumn::make('tagline')
+                        ->limit(50)
+                        ->searchable()
+                        ->html()
+                ]),
             ])
             ->filters([
-                //
+                SelectFilter::make('topic_id')
+                    ->relationship('topic', 'title')
+                    ->label('Тема')
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+            ->contentGrid([
+                'md' => 2,
+                'xl' => 3,
             ]);
     }
+
 
     public static function getRelations(): array
     {

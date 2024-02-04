@@ -17,7 +17,8 @@ class Post extends Model implements HasMedia
         'body',
         'topic_id',
         'flg_main_banner',
-        'tagline'
+        'tagline',
+        'post_type_id'
     ];
 
     protected $casts = [
@@ -28,5 +29,10 @@ class Post extends Model implements HasMedia
     public function topic(): BelongsTo
     {
         return $this->belongsTo(Topic::class);
+    }
+
+    public function PostType(): BelongsTo
+    {
+        return $this->belongsTo(PostType::class);
     }
 }

@@ -10,7 +10,6 @@
         .news_list_wrap {
             @include flexContainer(column, 10px, flex-start);
             @include shadow;
-            background: white;
             padding: 10px;
             width: 25%;
             min-width: 25%;
@@ -19,5 +18,14 @@
     }
 }
 
+.page_work_wrap {
+    article {
+        max-width: 800px;
+
+        img {
+            width: 100%;
+        }
+    }
+}
 
 
