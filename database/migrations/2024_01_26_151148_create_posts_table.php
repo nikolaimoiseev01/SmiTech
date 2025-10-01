@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('body');
-            $table->boolean('flg_main_banner');
+            $table->boolean('flg_main_banner')->nullable();
             $table->string('tagline');
             $table->foreignId('topic_id');
             $table->foreignId('post_type_id');
